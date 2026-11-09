@@ -1,0 +1,41 @@
+# Fluxo 05 — Excluir um alerta existente.
+# Cria um alerta (subfluxo reutilizável) e o exclui pelo accessibilityLabel real "Delete alert".
+appId: com.cryptoalert.app
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Cryptocurrencies"
+    timeout: 20000
+
+# Aba Alerts (vazia após clearState)
+- tapOn: "Alerts"
+- extendedWaitUntil:
+    visible: "Price Alerts"
+    timeout: 10000
+- assertVisible: "No alerts yet"
+- takeScreenshot: 05_inicio_alertas_vazio
+
+# Cria um alerta para poder excluir
+- runFlow:
+    file: subflows/criar_alerta.yaml
+    env:
+      CRYPTO_NAME: "Bitcoin"
+      PRICE: "50000"
+      CONDITION_TITLE: "Above target price"
+
+# O alerta está na lista
+- extendedWaitUntil:
+    visible: "Bitcoin"
+    timeout: 10000
+- takeScreenshot: 05_meio_alerta_criado
+
+# Exclui pelo accessibilityLabel real da lixeira do card
+- tapOn: "Delete alert"
+
+# A lista volta ao estado vazio
+- assertNotVisible: "Bitcoin"
+- extendedWaitUntil:
+    visible: "No alerts yet"
+    timeout: 10000
+- takeScreenshot: 05_fim_alerta_excluido
