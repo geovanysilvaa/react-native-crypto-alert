@@ -8,9 +8,11 @@
     "scheme": "cryptoalert",
     "userInterfaceStyle": "dark",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.cryptoalert.app"
     },
     "android": {
+      "package": "com.cryptoalert.app",
       "adaptiveIcon": {
         "backgroundColor": "#121212",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
