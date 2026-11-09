@@ -1,0 +1,44 @@
+# Fluxo 06 — Persistência do alerta após reiniciar o app.
+# Cria um alerta, fecha o app (stopApp) e reabre SEM clearState: o alerta deve continuar.
+appId: com.cryptoalert.app
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Cryptocurrencies"
+    timeout: 20000
+
+# Aba Alerts (vazia após clearState)
+- tapOn: "Alerts"
+- extendedWaitUntil:
+    visible: "Price Alerts"
+    timeout: 10000
+- assertVisible: "No alerts yet"
+
+# Cria um alerta que deverá persistir
+- runFlow:
+    file: subflows/criar_alerta.yaml
+    env:
+      CRYPTO_NAME: "Bitcoin"
+      PRICE: "50000"
+      CONDITION_TITLE: "Above target price"
+- extendedWaitUntil:
+    visible: "Bitcoin"
+    timeout: 10000
+- takeScreenshot: 06_antes_de_reiniciar
+
+# Fecha e reabre o app SEM limpar o estado (persistência no aparelho)
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible: "Cryptocurrencies"
+    timeout: 20000
+
+# Volta na aba Alerts: o alerta deve continuar lá
+- tapOn: "Alerts"
+- extendedWaitUntil:
+    visible: "Price Alerts"
+    timeout: 10000
+- assertVisible: "Bitcoin"
+- assertVisible: '$50,000.00'
+- takeScreenshot: 06_depois_de_reiniciar
