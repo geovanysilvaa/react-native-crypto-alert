@@ -1,0 +1,47 @@
+# Fluxo 02 — Conversão válida: troca de moeda fiat e de criptomoeda.
+# Valida o FORMATO do resultado, nunca o valor exato (preços vêm da API CoinGecko e mudam).
+appId: com.cryptoalert.app
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Cryptocurrencies"
+    timeout: 20000
+
+# Vai para a aba Convert
+- tapOn: "Convert"
+- extendedWaitUntil:
+    visible: "Convert Crypto"
+    timeout: 10000
+
+# Digita um valor válido
+- tapOn: "0.00"
+- inputText: "2"
+- hideKeyboard
+- takeScreenshot: 02_convert_inicial
+
+# Troca a criptomoeda (padrão "Bitcoin (BTC)" -> "Ethereum")
+- tapOn: 'Bitcoin \(BTC\)'
+- extendedWaitUntil:
+    visible: "Ethereum"
+    timeout: 10000
+- tapOn: "Ethereum"
+- extendedWaitUntil:
+    visible: 'Ethereum \(ETH\)'
+    timeout: 10000
+- takeScreenshot: 02_troca_cripto
+
+# Troca a moeda fiat (padrão "USD ($)" -> "BRL")
+- tapOn: 'USD \(\$\)'
+- extendedWaitUntil:
+    visible: "BRL"
+    timeout: 10000
+- tapOn: "BRL"
+- extendedWaitUntil:
+    visible: 'BRL \(R\$\)'
+    timeout: 10000
+- takeScreenshot: 02_troca_fiat
+
+# Valida o formato do resultado (ex.: R$1,234.56), nunca o valor exato
+- assertVisible: 'R\$[0-9,]+\.\d{2}'
+- takeScreenshot: 02_resultado
