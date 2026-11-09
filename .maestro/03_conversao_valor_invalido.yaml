@@ -1,0 +1,35 @@
+# Fluxo 03 — Conversão com valor inválido.
+# O valor "0" mostra a mensagem real ("Invalid amount"); ao apagar, volta ao placeholder.
+appId: com.cryptoalert.app
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Cryptocurrencies"
+    timeout: 20000
+
+# Vai para a aba Convert
+- tapOn: "Convert"
+- extendedWaitUntil:
+    visible: "Convert Crypto"
+    timeout: 10000
+
+# Estado inicial: mostra o placeholder do resultado
+- assertVisible: "Enter an amount"
+- takeScreenshot: 03_estado_inicial
+
+# Digita "0" (valor inválido)
+- tapOn: "0.00"
+- inputText: "0"
+- hideKeyboard
+
+# Mostra a mensagem real de valor inválido
+- assertVisible: "Invalid amount"
+- takeScreenshot: 03_valor_invalido
+
+# Apaga o valor: volta ao placeholder
+- tapOn: "0"
+- eraseText
+- hideKeyboard
+- assertVisible: "Enter an amount"
+- takeScreenshot: 03_placeholder_de_volta
