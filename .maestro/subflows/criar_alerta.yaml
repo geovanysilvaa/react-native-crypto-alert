@@ -1,0 +1,40 @@
+# Subfluxo reutilizável: cria um alerta de preço a partir da aba Alerts.
+# Env esperados:
+#   CRYPTO_NAME      -> nome da cripto exibido na lista (ex.: "Bitcoin")
+#   PRICE            -> preço alvo (ex.: "50000")
+#   CONDITION_TITLE  -> "Above target price" ou "Below target price"
+#
+# Uso:
+#   - runFlow:
+#       file: subflows/criar_alerta.yaml
+#       env:
+#         CRYPTO_NAME: "Bitcoin"
+#         PRICE: "50000"
+#         CONDITION_TITLE: "Above target price"
+
+# Abre a tela de criação (botão no cabeçalho da aba Alerts)
+- tapOn: "New Alert"
+- extendedWaitUntil:
+    visible: "Create Alert"
+    timeout: 10000
+
+# Seleciona a criptomoeda no modal do SelectField
+- tapOn: "Select cryptocurrency"
+- extendedWaitUntil:
+    visible: "${CRYPTO_NAME}"
+    timeout: 10000
+- tapOn: "${CRYPTO_NAME}"
+
+# Informa o preço alvo
+- tapOn: "0.00"
+- inputText: "${PRICE}"
+- hideKeyboard
+
+# Seleciona a condição
+- tapOn: "${CONDITION_TITLE}"
+
+# Salva e volta para a lista de alertas
+- tapOn: "Save Alert"
+- extendedWaitUntil:
+    visible: "Price Alerts"
+    timeout: 10000

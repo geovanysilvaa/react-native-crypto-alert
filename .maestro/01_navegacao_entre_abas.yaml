@@ -1,0 +1,33 @@
+# Fluxo 01 — Navegação entre as abas (List, Convert, Alerts) e títulos reais.
+# Textos reais extraídos do código em src/.
+appId: com.cryptoalert.app
+---
+- launchApp:
+    clearState: true
+
+# Aba List (inicial) — título interno "Cryptocurrencies"
+- extendedWaitUntil:
+    visible: "Cryptocurrencies"
+    timeout: 20000
+- takeScreenshot: 01_aba_list
+
+# Aba Convert — título interno "Convert Crypto"
+- tapOn: "Convert"
+- extendedWaitUntil:
+    visible: "Convert Crypto"
+    timeout: 10000
+- takeScreenshot: 01_aba_convert
+
+# Aba Alerts — título interno "Price Alerts"
+- tapOn: "Alerts"
+- extendedWaitUntil:
+    visible: "Price Alerts"
+    timeout: 10000
+- takeScreenshot: 01_aba_alerts
+
+# Volta para a aba List
+- tapOn: "List"
+- extendedWaitUntil:
+    visible: "Cryptocurrencies"
+    timeout: 10000
+- takeScreenshot: 01_volta_para_list
