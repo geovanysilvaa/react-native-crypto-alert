@@ -1,0 +1,57 @@
+# Fluxo 04 — Criar alerta com condição "acima".
+# Passos: form vazio tem Salvar desabilitado -> preencher -> salvar -> ver o card.
+# Criptos da tela de criação vêm da lista estática (nomes determinísticos).
+appId: com.cryptoalert.app
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Cryptocurrencies"
+    timeout: 20000
+
+# Aba Alerts (vazia após clearState)
+- tapOn: "Alerts"
+- extendedWaitUntil:
+    visible: "Price Alerts"
+    timeout: 10000
+- assertVisible: "No alerts yet"
+- takeScreenshot: 04_inicio_alertas_vazio
+
+# Abre a tela de criação
+- tapOn: "New Alert"
+- extendedWaitUntil:
+    visible: "Create Alert"
+    timeout: 10000
+
+# Formulário vazio: o botão Salvar está desabilitado
+- assertVisible:
+    text: "Save Alert"
+    enabled: false
+- takeScreenshot: 04_meio_form_vazio
+
+# Seleciona a criptomoeda
+- tapOn: "Select cryptocurrency"
+- extendedWaitUntil:
+    visible: "Bitcoin"
+    timeout: 10000
+- tapOn: "Bitcoin"
+
+# Informa o preço alvo
+- tapOn: "0.00"
+- inputText: "50000"
+- hideKeyboard
+
+# Seleciona a condição "acima"
+- tapOn: "Above target price"
+- takeScreenshot: 04_meio_form_preenchido
+
+# Salva e volta para a lista de alertas
+- tapOn: "Save Alert"
+- extendedWaitUntil:
+    visible: "Price Alerts"
+    timeout: 10000
+
+# O card do alerta foi criado
+- assertVisible: "Bitcoin"
+- assertVisible: '$50,000.00'
+- takeScreenshot: 04_fim_card_criado
